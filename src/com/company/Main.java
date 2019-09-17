@@ -24,9 +24,8 @@ public class Main {
     private static HashMap<String, Integer> collectemailamount(String emails) {
         HashMap<String, Integer> map = new HashMap<>();
 
-        Pattern p = Pattern.compile("\\w+@((?: \\w+\\.)+\\w+)");
+        Pattern p = Pattern.compile("\\w+@((?:\\w+\\.)+\\w+)");
         Matcher m = p.matcher(emails);
-
 
         while (m.find()){
             String emailDom = m.group(1);
