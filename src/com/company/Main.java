@@ -5,6 +5,7 @@ import java.lang.module.FindException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -13,24 +14,28 @@ import java.util.regex.Matcher;
 public class Main {
 
 
-
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException {
         String emails = Files.readString(Paths.get("sample.txt"), Charset.forName("windows-1252"));
-        Pattern p = Pattern.compile("@softwire\\.com");
-        Matcher m = p.matcher(emails);
-        boolean b = m.matches();
-
-        int counter = 0;
-
-
-       while (m.find()){
-           counter = counter + 1;
-
-           }
-        System.out.println(counter);
-
-       }
+        HashMap<String, Integer> emailamount = collectemailamount(emails);
+        System.out.print(emailamount);
 
     }
+
+    private static HashMap<String, Integer> collectemailamount(String emails) {
+        HashMap<String, Integer> map = new HashMap<>();
+
+        Pattern p = Pattern.compile("\\w+@((?: \\w+\\.)+\\w+)");
+        Matcher m = p.matcher(emails);
+
+
+        while (m.find()){
+            String emailDom = m.group(1);
+            int count = map.getOrDefault(emailDom, 0);
+            map.put(emailDom, count + 1);
+        }
+        return map;
+    }
+}
+
 
 
